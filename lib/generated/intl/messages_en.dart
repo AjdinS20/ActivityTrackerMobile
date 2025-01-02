@@ -22,11 +22,15 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "allTime": MessageLookupByLibrary.simpleMessage("All Time"),
         "allTrainings": MessageLookupByLibrary.simpleMessage("All Trainings"),
+        "average_speed": MessageLookupByLibrary.simpleMessage("Average speed"),
         "avgTimeBetweenSessions": MessageLookupByLibrary.simpleMessage(
             "Average Time Between Sessions"),
         "biometricProfile":
             MessageLookupByLibrary.simpleMessage("Biometric Profile"),
+        "bosnian": MessageLookupByLibrary.simpleMessage("Bosnian"),
+        "calories": MessageLookupByLibrary.simpleMessage("Calories"),
         "confirmButton": MessageLookupByLibrary.simpleMessage("CONFIRM"),
         "confirmPassword":
             MessageLookupByLibrary.simpleMessage("Confirm Password"),
@@ -36,9 +40,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "currentLanguage":
             MessageLookupByLibrary.simpleMessage("Current Language:"),
         "cycling": MessageLookupByLibrary.simpleMessage("Cycling"),
+        "date": MessageLookupByLibrary.simpleMessage("Date"),
+        "days": MessageLookupByLibrary.simpleMessage("days"),
         "deleteAccount": MessageLookupByLibrary.simpleMessage("Delete Account"),
+        "distance_covered":
+            MessageLookupByLibrary.simpleMessage("Distance covered"),
         "email": MessageLookupByLibrary.simpleMessage("Email"),
         "email_profile": MessageLookupByLibrary.simpleMessage("Email:"),
+        "english": MessageLookupByLibrary.simpleMessage("English"),
         "female": MessageLookupByLibrary.simpleMessage("Female"),
         "fieldRequired":
             MessageLookupByLibrary.simpleMessage("This field is required"),
@@ -49,8 +58,17 @@ class MessageLookup extends MessageLookupByLibrary {
         "height": MessageLookupByLibrary.simpleMessage("Height"),
         "height_profile": MessageLookupByLibrary.simpleMessage("Height:"),
         "home": MessageLookupByLibrary.simpleMessage("Home"),
+        "hours": MessageLookupByLibrary.simpleMessage("hours"),
         "invalidEmail":
             MessageLookupByLibrary.simpleMessage("Invalid email address"),
+        "kcal": MessageLookupByLibrary.simpleMessage("kcal"),
+        "km": MessageLookupByLibrary.simpleMessage("km"),
+        "kmPerHour": MessageLookupByLibrary.simpleMessage("km/h"),
+        "lastMonth": MessageLookupByLibrary.simpleMessage("Last Month"),
+        "lastWeek": MessageLookupByLibrary.simpleMessage("Last Week"),
+        "lastYear": MessageLookupByLibrary.simpleMessage("Last Year"),
+        "locationPermissionDenied": MessageLookupByLibrary.simpleMessage(
+            "Location permission is required to start a new training session."),
         "logout": MessageLookupByLibrary.simpleMessage("Log Out"),
         "longestRouteCovered":
             MessageLookupByLibrary.simpleMessage("Longest Route Covered"),
@@ -64,6 +82,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "name": MessageLookupByLibrary.simpleMessage("Name"),
         "noAccount":
             MessageLookupByLibrary.simpleMessage("Don\'t have an account? "),
+        "no_trainings":
+            MessageLookupByLibrary.simpleMessage("No trainings found"),
         "numberOfTrainings":
             MessageLookupByLibrary.simpleMessage("Number of Trainings"),
         "password": MessageLookupByLibrary.simpleMessage("Password"),
@@ -88,6 +108,11 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Total Distance Covered"),
         "totalTimeSpent":
             MessageLookupByLibrary.simpleMessage("Total Time Spent"),
+        "total_time": MessageLookupByLibrary.simpleMessage("Total time"),
+        "training_overview":
+            MessageLookupByLibrary.simpleMessage("Training Overview"),
+        "training_time": MessageLookupByLibrary.simpleMessage("Training time"),
+        "type": MessageLookupByLibrary.simpleMessage("Type"),
         "weight": MessageLookupByLibrary.simpleMessage("Weight"),
         "weight_profile": MessageLookupByLibrary.simpleMessage("Weight:"),
         "welcomeBack": MessageLookupByLibrary.simpleMessage("Welcome back"),

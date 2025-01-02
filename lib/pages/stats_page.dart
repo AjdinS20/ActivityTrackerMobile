@@ -9,58 +9,46 @@ class StatsPage extends StatefulWidget {
 }
 
 class _StatsPageState extends State<StatsPage> {
-  String _selectedTimePeriod = 'All Time';
-  int _selectedTrainingType =
-      2; // Set to "All" initially (2 corresponds to "All")
+  String _selectedTimePeriod = 'allTime';
+  int _selectedTrainingType = 2;
   Map<String, dynamic>? _trainingStats;
   DateTime _startDate = DateTime(2000);
   DateTime _endDate = DateTime.now();
 
-  final List<String> _timePeriods = [
-    'All Time',
-    'Last Year',
-    'Last Month',
-    'Last Week'
-  ];
-
-  final List<Map<String, dynamic>> _trainingTypes = [
-    {'icon': Icons.directions_run, 'label': 'Running'},
-    {'icon': Icons.directions_bike, 'label': 'Cycling'},
-    {'icon': Icons.insert_chart, 'label': 'All'}
-  ];
-
   final PageController _pageController = PageController(
     viewportFraction: 0.3,
-    initialPage: 485, // Start with "All" selected
+    initialPage: 485,
   );
 
   @override
   void initState() {
     super.initState();
-
-    // Fetch initial stats
     _fetchTrainingStats();
+  }
 
-    // // Center the "All" option in the carousel after the first frame
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   _pageController.animateToPage(
-    //     1002, // Center the "All" option
-    //     duration: Duration(milliseconds: 200),
-    //     curve: Curves.easeInOut,
-    //   );
-    // });
+  String _formatValue(dynamic value, int precision) {
+    if (value == null) return '0';
+    if (value is num) {
+      return value.abs().toStringAsFixed(precision);
+    } else if (value is String) {
+      // Attempt to parse the string as a number
+      final parsed = value.split('.')[0]; //double.tryParse(value);
+      print("VAlue is string: " + value + " " + parsed.toString());
+      return parsed != null ? parsed : value;
+    }
+    return value.toString();
   }
 
   Future<void> _fetchTrainingStats() async {
     DateTime now = DateTime.now();
     switch (_selectedTimePeriod) {
-      case 'Last Year':
+      case 'lastYear':
         _startDate = DateTime(now.year - 1, now.month, now.day);
         break;
-      case 'Last Month':
+      case 'lastMonth':
         _startDate = DateTime(now.year, now.month - 1, now.day);
         break;
-      case 'Last Week':
+      case 'lastWeek':
         _startDate = now.subtract(Duration(days: 7));
         break;
       default:
@@ -93,7 +81,6 @@ class _StatsPageState extends State<StatsPage> {
     return Scaffold(
       body: Column(
         children: [
-          // Top blue region
           Container(
             height: 85,
             color: Color(0xFF3477A7),
@@ -102,26 +89,35 @@ class _StatsPageState extends State<StatsPage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  S.of(context).myTrainingStats,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 26,
-                    fontWeight: FontWeight.bold,
+                Expanded(
+                  child: Text(
+                    S.of(context).myTrainingStats,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 26,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
                 DropdownButton<String>(
                   dropdownColor: Color(0xFF3477A7),
                   value: _selectedTimePeriod,
-                  items: _timePeriods
-                      .map((timePeriod) => DropdownMenuItem(
-                            value: timePeriod,
-                            child: Text(
-                              timePeriod,
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ))
-                      .toList(),
+                  items: [
+                    {'key': 'allTime', 'label': S.of(context).allTime},
+                    {'key': 'lastYear', 'label': S.of(context).lastYear},
+                    {'key': 'lastMonth', 'label': S.of(context).lastMonth},
+                    {'key': 'lastWeek', 'label': S.of(context).lastWeek},
+                  ].map((timePeriod) {
+                    return DropdownMenuItem(
+                      value: timePeriod['key'],
+                      child: Text(
+                        timePeriod['label']!,
+                        style: TextStyle(color: Colors.white),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    );
+                  }).toList(),
                   onChanged: (value) {
                     setState(() {
                       _selectedTimePeriod = value!;
@@ -133,49 +129,53 @@ class _StatsPageState extends State<StatsPage> {
             ),
           ),
           SizedBox(height: 20),
-          // Carousel selector
           SizedBox(
             height: 120,
             child: PageView.builder(
               controller: _pageController,
-              itemCount: _trainingTypes.length * 1000,
+              itemCount: 3 * 1000,
               onPageChanged: (index) {
                 setState(() {
-                  _selectedTrainingType = index % _trainingTypes.length;
+                  _selectedTrainingType = index % 3;
                   _fetchTrainingStats();
                 });
               },
               itemBuilder: (context, index) {
-                final item = _trainingTypes[index % _trainingTypes.length];
-                bool isSelected =
-                    index % _trainingTypes.length == _selectedTrainingType;
+                final labels = [
+                  S.of(context).running,
+                  S.of(context).cycling,
+                  S.of(context).allTrainings
+                ];
+                final icons = [
+                  Icons.directions_run,
+                  Icons.directions_bike,
+                  Icons.insert_chart
+                ];
+                bool isSelected = index % 3 == _selectedTrainingType;
 
                 return Center(
                   child: Opacity(
                     opacity: isSelected ? 1.0 : 0.4,
                     child: Transform.scale(
                       scale: isSelected ? 1.3 : 1.0,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 8.0), // Adjust padding
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              item['icon'],
-                              size: 50,
-                              color: Color(0xFF3EC3FF),
-                            ),
-                            if (isSelected)
-                              Text(
-                                item['label'],
-                                style: TextStyle(
-                                  color: Color(0xFF3EC3FF),
-                                  fontWeight: FontWeight.bold,
-                                ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            icons[index % 3],
+                            size: 50,
+                            color: Color(0xFF3EC3FF),
+                          ),
+                          if (isSelected)
+                            Text(
+                              labels[index % 3],
+                              style: TextStyle(
+                                color: Color(0xFF3EC3FF),
+                                fontWeight: FontWeight.bold,
                               ),
-                          ],
-                        ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                        ],
                       ),
                     ),
                   ),
@@ -184,7 +184,6 @@ class _StatsPageState extends State<StatsPage> {
             ),
           ),
           SizedBox(height: 20),
-          // Training stats display
           _trainingStats == null
               ? Center(child: CircularProgressIndicator())
               : Padding(
@@ -192,22 +191,20 @@ class _StatsPageState extends State<StatsPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      _buildStatsRow(S.of(context).numberOfTrainings,
-                          _trainingStats!['numberOfTrainings'].toString()),
                       _buildStatsRow(S.of(context).totalTimeSpent,
-                          _trainingStats!['totalTimeSpent'].toString()),
+                          "${_formatValue(_trainingStats!['totalTimeSpent'], 2)} ${S.of(context).hours}"),
                       _buildStatsRow(S.of(context).totalDistanceCovered,
-                          _trainingStats!['totalDistanceCovered'].toString()),
+                          "${_formatValue(_trainingStats!['totalDistanceCovered'], 2)} ${S.of(context).km}"),
                       _buildStatsRow(S.of(context).totalCaloriesBurned,
-                          _trainingStats!['totalCaloriesBurned'].toString()),
+                          "${_formatValue(_trainingStats!['totalCaloriesBurned'], 2)} ${S.of(context).kcal}"),
                       _buildStatsRow(S.of(context).topSpeed,
-                          _trainingStats!['topSpeed'].toString()),
+                          "${_formatValue(_trainingStats!['topSpeed'], 2)} ${S.of(context).kmPerHour}"),
                       _buildStatsRow(S.of(context).longestSession,
-                          _trainingStats!['longestSession'].toString()),
+                          "${_formatValue(_trainingStats!['longestSession'], 2)} ${S.of(context).hours}"),
                       _buildStatsRow(S.of(context).longestRouteCovered,
-                          _trainingStats!['longestRouteCovered'].toString()),
+                          "${_formatValue(_trainingStats!['longestRouteCovered'], 2)} ${S.of(context).km}"),
                       _buildStatsRow(S.of(context).avgTimeBetweenSessions,
-                          _trainingStats!['avgTimeBetweenSessions'].toString()),
+                          "${_formatValue(_trainingStats!['avgTimeBetweenSessions'], 2)} ${S.of(context).days}"),
                     ],
                   ),
                 ),
@@ -222,8 +219,18 @@ class _StatsPageState extends State<StatsPage> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: TextStyle(fontWeight: FontWeight.bold)),
-          Text(value, style: TextStyle(color: Color(0xFF3477A7))),
+          Expanded(
+            child: Text(
+              label,
+              style: TextStyle(fontWeight: FontWeight.bold),
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+          Text(
+            value,
+            style: TextStyle(color: Color(0xFF3477A7)),
+            overflow: TextOverflow.ellipsis,
+          ),
         ],
       ),
     );

@@ -579,6 +579,216 @@ class S {
       args: [],
     );
   }
+
+  /// `Location permission is required to start a new training session.`
+  String get locationPermissionDenied {
+    return Intl.message(
+      'Location permission is required to start a new training session.',
+      name: 'locationPermissionDenied',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `hours`
+  String get hours {
+    return Intl.message(
+      'hours',
+      name: 'hours',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `km`
+  String get km {
+    return Intl.message(
+      'km',
+      name: 'km',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `kcal`
+  String get kcal {
+    return Intl.message(
+      'kcal',
+      name: 'kcal',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `km/h`
+  String get kmPerHour {
+    return Intl.message(
+      'km/h',
+      name: 'kmPerHour',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `days`
+  String get days {
+    return Intl.message(
+      'days',
+      name: 'days',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `All Time`
+  String get allTime {
+    return Intl.message(
+      'All Time',
+      name: 'allTime',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Last Year`
+  String get lastYear {
+    return Intl.message(
+      'Last Year',
+      name: 'lastYear',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Last Month`
+  String get lastMonth {
+    return Intl.message(
+      'Last Month',
+      name: 'lastMonth',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Last Week`
+  String get lastWeek {
+    return Intl.message(
+      'Last Week',
+      name: 'lastWeek',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No trainings found`
+  String get no_trainings {
+    return Intl.message(
+      'No trainings found',
+      name: 'no_trainings',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Date`
+  String get date {
+    return Intl.message(
+      'Date',
+      name: 'date',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Type`
+  String get type {
+    return Intl.message(
+      'Type',
+      name: 'type',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Training time`
+  String get training_time {
+    return Intl.message(
+      'Training time',
+      name: 'training_time',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Training Overview`
+  String get training_overview {
+    return Intl.message(
+      'Training Overview',
+      name: 'training_overview',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Total time`
+  String get total_time {
+    return Intl.message(
+      'Total time',
+      name: 'total_time',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Average speed`
+  String get average_speed {
+    return Intl.message(
+      'Average speed',
+      name: 'average_speed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Distance covered`
+  String get distance_covered {
+    return Intl.message(
+      'Distance covered',
+      name: 'distance_covered',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Calories`
+  String get calories {
+    return Intl.message(
+      'Calories',
+      name: 'calories',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `English`
+  String get english {
+    return Intl.message(
+      'English',
+      name: 'english',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Bosnian`
+  String get bosnian {
+    return Intl.message(
+      'Bosnian',
+      name: 'bosnian',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

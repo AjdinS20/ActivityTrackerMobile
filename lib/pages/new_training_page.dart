@@ -1,6 +1,10 @@
+import 'dart:async';
+
+import 'package:activity_tracker/models/training_detail_dto.dart';
 import 'package:activity_tracker/services/location_service.dart';
 import 'package:activity_tracker/services/training_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
@@ -24,15 +28,51 @@ class _NewTrainingPageState extends State<NewTrainingPage>
 
   final TrainingService _trainingService = TrainingService();
   final LocationService _locationService = LocationService();
+  StreamSubscription<Map<String, dynamic>?>? _serviceSubscription;
 
   @override
   void initState() {
     super.initState();
     _requestPermissions();
-    _loadRouteFromCache(); // Load the route from cache on startup
+    _loadRoute(); // Load the route from cache on startup
+    _checkIfTracking();
     WidgetsBinding.instance
         .addObserver(this); // Add observer for app lifecycle changes
     _initializeCurrentLocation();
+    _startListeningToService();
+  }
+
+  Future<void> _checkIfTracking() async {
+    final prefs = await SharedPreferences.getInstance();
+    final trainingId = prefs.getString('active_training_id');
+    if (trainingId != null) {
+      setState(() {
+        _isTracking = true;
+      });
+      // Optionally, load the route from cache
+      await _loadRoute();
+    } else {
+      setState(() {
+        _isTracking = false;
+        prefs.remove('route');
+      });
+    }
+  }
+
+  void _startListeningToService() {
+    final service = FlutterBackgroundService();
+
+    _serviceSubscription = service.on('update').listen((event) {
+      if (event != null) {
+        double latitude = event['latitude'];
+        double longitude = event['longitude'];
+
+        setState(() {
+          _route.add(LatLng(latitude, longitude));
+          _mapController.move(LatLng(latitude, longitude), _mapController.zoom);
+        });
+      }
+    });
   }
 
   void _initializeCurrentLocation() async {
@@ -51,6 +91,7 @@ class _NewTrainingPageState extends State<NewTrainingPage>
 
   @override
   void dispose() {
+    _serviceSubscription?.cancel();
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
@@ -58,8 +99,7 @@ class _NewTrainingPageState extends State<NewTrainingPage>
   // Handle app lifecycle events to stop the training and service on close
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.detached ||
-        state == AppLifecycleState.paused) {
+    if (state == AppLifecycleState.detached) {
       _finishTrainingOnClose();
     }
   }
@@ -87,17 +127,21 @@ class _NewTrainingPageState extends State<NewTrainingPage>
     }
   }
 
-  Future<void> _loadRouteFromCache() async {
+  Future<void> _loadRoute() async {
     final prefs = await SharedPreferences.getInstance();
-    String? routeJson = prefs.getString('current_route');
+    final trainingId = prefs.getString('active_training_id');
 
-    if (routeJson != null) {
-      List<dynamic> routePoints = jsonDecode(routeJson);
-      setState(() {
-        _route = routePoints
-            .map((point) => LatLng(point['latitude'], point['longitude']))
-            .toList();
-      });
+    if (trainingId != null) {
+      TrainingDetailDto? trainingDetail =
+          await _trainingService.getTrainingDetail(trainingId);
+
+      if (trainingDetail != null) {
+        setState(() {
+          _route = trainingDetail.points
+              .map((point) => LatLng(point.latitude, point.longitude))
+              .toList();
+        });
+      }
     }
   }
 
@@ -131,14 +175,16 @@ class _NewTrainingPageState extends State<NewTrainingPage>
     if (trainingId != null) {
       // Finish the training session
       await _trainingService.finishTraining(trainingId);
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.remove('active_training_id');
 
       setState(() {
         _isTracking = false;
-        _route = []; // Clear route on UI
       });
 
       // Stop background location tracking
       _locationService.stopBackgroundService();
+      Navigator.pop(context);
     }
   }
 
@@ -149,7 +195,7 @@ class _NewTrainingPageState extends State<NewTrainingPage>
         await _trainingService.finishTraining(trainingId);
         await _locationService.stopBackgroundService();
         final prefs = await SharedPreferences.getInstance();
-        await prefs.remove('current_route'); // Clear cached route
+        await prefs.remove('active_training_id');
       }
     }
   }
@@ -296,6 +342,10 @@ class _NewTrainingPageState extends State<NewTrainingPage>
                 markers: [
                   Marker(
                     point: snapshot.data!,
+                    width: 40, // Match the size of the icon
+                    height: 40,
+                    anchorPos: AnchorPos.align(
+                        AnchorAlign.top), // Centered anchor position
                     builder: (ctx) => Icon(
                       Icons.location_pin,
                       color: Colors.red,

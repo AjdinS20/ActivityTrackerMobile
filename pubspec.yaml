@@ -51,6 +51,9 @@ dependencies:
   json_serializable: ^6.8.0
   flutter_background_service: ^5.0.10
   flutter_local_notifications: ^17.2.3
+  device_info_plus: ^9.1.2
+  wifi_info_flutter: ^2.0.2
+  battery_plus: ^5.0.3
   
 module:
   androidPackage: com.example.activity_tracker

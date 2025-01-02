@@ -6,8 +6,8 @@ class DioService {
     BaseOptions(
       baseUrl:
           'https://activitytrackerapp-gxhtegd4f6cggfhb.italynorth-01.azurewebsites.net',
-      connectTimeout: Duration(milliseconds: 6000),
-      receiveTimeout: Duration(milliseconds: 6000),
+      connectTimeout: Duration(milliseconds: 15000),
+      receiveTimeout: Duration(milliseconds: 15000),
     ),
   )..interceptors.add(InterceptorsWrapper(
       onRequest: (options, handler) async {

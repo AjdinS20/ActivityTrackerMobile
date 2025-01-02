@@ -22,11 +22,16 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "allTime": MessageLookupByLibrary.simpleMessage("Sve vrijeme"),
         "allTrainings": MessageLookupByLibrary.simpleMessage("Svi Treninzi"),
+        "average_speed":
+            MessageLookupByLibrary.simpleMessage("Prosjećna brzina"),
         "avgTimeBetweenSessions": MessageLookupByLibrary.simpleMessage(
             "Prosjek Vremena Između Treninga"),
         "biometricProfile":
             MessageLookupByLibrary.simpleMessage("Biometrijski profil"),
+        "bosnian": MessageLookupByLibrary.simpleMessage("Bosanski"),
+        "calories": MessageLookupByLibrary.simpleMessage("kalorije"),
         "confirmButton": MessageLookupByLibrary.simpleMessage("POTVRDI"),
         "confirmPassword":
             MessageLookupByLibrary.simpleMessage("Potvrdite šifru"),
@@ -36,9 +41,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "currentLanguage":
             MessageLookupByLibrary.simpleMessage("Trenutni jezik:"),
         "cycling": MessageLookupByLibrary.simpleMessage("Biciklizam"),
+        "date": MessageLookupByLibrary.simpleMessage("Datum"),
+        "days": MessageLookupByLibrary.simpleMessage("dana"),
         "deleteAccount": MessageLookupByLibrary.simpleMessage("Obriši račun"),
+        "distance_covered":
+            MessageLookupByLibrary.simpleMessage("Pređena udaljenost"),
         "email": MessageLookupByLibrary.simpleMessage("E-mail"),
         "email_profile": MessageLookupByLibrary.simpleMessage("E-pošta:"),
+        "english": MessageLookupByLibrary.simpleMessage("Engleski"),
         "female": MessageLookupByLibrary.simpleMessage("Žensko"),
         "fieldRequired":
             MessageLookupByLibrary.simpleMessage("Ovo polje je obavezno"),
@@ -48,8 +58,17 @@ class MessageLookup extends MessageLookupByLibrary {
         "height": MessageLookupByLibrary.simpleMessage("Visina"),
         "height_profile": MessageLookupByLibrary.simpleMessage("Visina:"),
         "home": MessageLookupByLibrary.simpleMessage("Početna"),
+        "hours": MessageLookupByLibrary.simpleMessage("sati"),
         "invalidEmail":
             MessageLookupByLibrary.simpleMessage("Neispravna e-mail adresa"),
+        "kcal": MessageLookupByLibrary.simpleMessage("kcal"),
+        "km": MessageLookupByLibrary.simpleMessage("km"),
+        "kmPerHour": MessageLookupByLibrary.simpleMessage("km/h"),
+        "lastMonth": MessageLookupByLibrary.simpleMessage("Prošli mjesec"),
+        "lastWeek": MessageLookupByLibrary.simpleMessage("Prošla sedmica"),
+        "lastYear": MessageLookupByLibrary.simpleMessage("Prošla godina"),
+        "locationPermissionDenied": MessageLookupByLibrary.simpleMessage(
+            "Dozvola za lokaciju je potrebna za pokretanje nove trening sesije."),
         "logout": MessageLookupByLibrary.simpleMessage("Odjavi se"),
         "longestRouteCovered":
             MessageLookupByLibrary.simpleMessage("Najduža Ruta"),
@@ -62,6 +81,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Statistike Treninga"),
         "name": MessageLookupByLibrary.simpleMessage("Ime"),
         "noAccount": MessageLookupByLibrary.simpleMessage("Nemate račun? "),
+        "no_trainings":
+            MessageLookupByLibrary.simpleMessage("Nemate obavljenih treninga"),
         "numberOfTrainings":
             MessageLookupByLibrary.simpleMessage("Broj Treninga"),
         "password": MessageLookupByLibrary.simpleMessage("Šifra"),
@@ -86,6 +107,12 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Ukupna Udaljenost"),
         "totalTimeSpent":
             MessageLookupByLibrary.simpleMessage("Ukupno Vrijeme"),
+        "total_time": MessageLookupByLibrary.simpleMessage("Ukupno vrijeme"),
+        "training_overview":
+            MessageLookupByLibrary.simpleMessage("Pregled Treninga"),
+        "training_time":
+            MessageLookupByLibrary.simpleMessage("Vrijeme treniranja"),
+        "type": MessageLookupByLibrary.simpleMessage("Vrsta"),
         "weight": MessageLookupByLibrary.simpleMessage("Težina"),
         "weight_profile": MessageLookupByLibrary.simpleMessage("Težina:"),
         "welcomeBack": MessageLookupByLibrary.simpleMessage("Dobrodošli nazad"),

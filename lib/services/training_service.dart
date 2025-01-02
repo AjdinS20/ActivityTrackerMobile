@@ -1,3 +1,4 @@
+import 'package:activity_tracker/models/training_detail_dto.dart';
 import 'package:dio/dio.dart';
 import 'dio_service.dart'; // Import the DioService
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,12 +15,48 @@ class TrainingService {
       );
 
       if (response.statusCode == 200) {
-        final trainingId = response.data['id'];
-        await _saveTrainingId(trainingId);
+        final trainingId = response.data.toString();
+        await _saveTrainingId(trainingId.toString());
         return trainingId;
       }
     } catch (e) {
       print('Error starting training: $e');
+    }
+    return null;
+  }
+
+  Future<TrainingDetailDto?> getTrainingDetail(String trainingId) async {
+    try {
+      final response = await _dio.get('/api/Training/$trainingId');
+
+      if (response.statusCode == 200) {
+        final data = response.data;
+        return TrainingDetailDto.fromJson(data);
+      } else {
+        print(
+            'Failed to load training details. Status code: ${response.statusCode}');
+        return null;
+      }
+    } catch (e) {
+      print('Error fetching training details: $e');
+      return null;
+    }
+  }
+
+  Future<List<TrainingDetailDto>?> getAllTrainings() async {
+    try {
+      final response = await _dio.get('/api/Training');
+
+      if (response.statusCode == 200) {
+        List<dynamic> data = response.data;
+        List<TrainingDetailDto> trainings =
+            data.map((item) => TrainingDetailDto.fromJson(item)).toList();
+        return trainings;
+      } else {
+        print('Failed to load trainings. Status code: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error fetching trainings: $e');
     }
     return null;
   }

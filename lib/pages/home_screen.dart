@@ -1,12 +1,12 @@
-import 'package:activity_tracker/pages/new_training_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'activities_page.dart';
-import 'stats_page.dart';
-import 'profile_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:activity_tracker/generated/l10n.dart';
+import 'package:activity_tracker/pages/activities_page.dart';
+import 'package:activity_tracker/pages/stats_page.dart';
+import 'package:activity_tracker/pages/profile_page.dart';
+import 'package:activity_tracker/pages/new_training_page.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -15,6 +15,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
+  bool _isTrainingActive = false;
 
   final List<Widget> _pages = [
     ActivitiesPage(),
@@ -31,6 +32,14 @@ class _HomeScreenState extends State<HomeScreen> {
         statusBarIconBrightness: Brightness.light,
       ),
     );
+    _checkActiveTraining();
+  }
+
+  Future<void> _checkActiveTraining() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _isTrainingActive = prefs.getString('active_training_id') != null;
+    });
   }
 
   @override
@@ -38,6 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: Column(
         children: [
+          // Top padding and possibly top bar color
           Container(
             height: MediaQuery.of(context).padding.top + 30,
             color: Color(0xFF3477A7),
@@ -82,13 +92,14 @@ class _HomeScreenState extends State<HomeScreen> {
               },
               icon: Icon(Icons.add, color: Colors.white),
               label: Text(
-                S.of(context).startNew,
+                _isTrainingActive
+                    ? S.of(context).continueButton
+                    : S.of(context).startNew,
                 style: TextStyle(color: Colors.white),
               ),
               backgroundColor: Color(0xFF3477A7),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(
-                    35), // Adjust the radius to make it rounder
+                borderRadius: BorderRadius.circular(35),
               ),
             )
           : null,
@@ -98,45 +109,20 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> _checkAndRequestLocationPermission() async {
     await Permission.locationWhenInUse.request();
-
     PermissionStatus status = await Permission.locationWhenInUse.status;
 
-    // If permission is granted, navigate to NewTrainingPage
     if (status.isGranted) {
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => NewTrainingPage()),
-      );
+      ).then((value) => Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => HomeScreen()),
+          ));
     } else {
-      // If permission is denied, show a message
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(S.of(context).start),
       ));
     }
-  }
-
-  Future<bool> requestLocationPermission() async {
-    bool serviceEnabled;
-    LocationPermission permission;
-
-    // Test if location services are enabled.
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      return Future.error('Location services are disabled.');
-    }
-
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        return false;
-      }
-    }
-
-    if (permission == LocationPermission.deniedForever) {
-      return false;
-    }
-
-    return true;
   }
 }

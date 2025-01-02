@@ -184,7 +184,7 @@ class _ProfilePageState extends State<ProfilePage> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            label,
+            label ?? "N/A",
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
           ),
           if (isDropdown)
@@ -209,11 +209,11 @@ class _ProfilePageState extends State<ProfilePage> {
       items: [
         DropdownMenuItem(
           value: 'en',
-          child: Text('English'),
+          child: Text(S.of(context).english),
         ),
         DropdownMenuItem(
           value: 'bs',
-          child: Text('Bosnian'),
+          child: Text(S.of(context).bosnian),
         ),
       ],
       onChanged: (value) {
