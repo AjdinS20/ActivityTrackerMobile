@@ -54,7 +54,7 @@ class LocationService {
   static Future<void> onStart(ServiceInstance service) async {
     WidgetsFlutterBinding.ensureInitialized();
     bool useHighAccuracyLocaiton = false;
-    DartPluginRegistrant.ensureInitialized(); // Registers plugins
+    DartPluginRegistrant.ensureInitialized();
 
     // Initialize SharedPreferences
     final prefs = await SharedPreferences.getInstance();
@@ -67,10 +67,8 @@ class LocationService {
       ),
     );
 
-    // Show foreground notification
     await showForegroundNotification(flutterLocalNotificationsPlugin);
     final Battery battery = Battery();
-    // Timer to fetch location every 10 seconds
     Timer.periodic(Duration(seconds: 10), (timer) async {
       final trainingId = prefs.getString('active_training_id');
 
@@ -78,16 +76,13 @@ class LocationService {
         final batteryLevel = await battery.batteryLevel;
         final bool useHighAccuracy = batteryLevel > 50;
         print(useHighAccuracy.toString() + " " + batteryLevel.toString());
-        // LocationService locationServiceInstance = LocationService();
         useHighAccuracyLocaiton = !useHighAccuracyLocaiton;
         print(batteryLevel.toString());
-        LocationAccuracy accuracy = useHighAccuracy
-            ? LocationAccuracy.high // High accuracy when battery > 50%
-            : LocationAccuracy.lowest;
+        LocationAccuracy accuracy =
+            useHighAccuracy ? LocationAccuracy.high : LocationAccuracy.lowest;
         Position position =
             await Geolocator.getCurrentPosition(desiredAccuracy: accuracy);
 
-        // Update backend with the location
         await TrainingService().updateTraining(
           trainingId,
           position.latitude,
@@ -95,7 +90,6 @@ class LocationService {
           DateTime.now(),
         );
 
-        // Update route in cache
         await _updateRouteInCache(position.latitude, position.longitude, prefs);
 
         service.invoke(
@@ -108,9 +102,8 @@ class LocationService {
       }
     });
 
-    // Listen for stop event
     service.on('stop').listen((event) {
-      service.stopSelf(); // Stops the service
+      service.stopSelf();
     });
   }
 

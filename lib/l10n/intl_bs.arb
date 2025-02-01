@@ -74,5 +74,9 @@
   "distance_covered": "Pređena udaljenost",
   "calories": "kalorije",
   "english": "Engleski",
-  "bosnian": "Bosanski"
+  "bosnian": "Bosanski",
+  "warning": "Upozorenje",
+  "exitTrainingWarning": "Napuštanje ovog ekrana će zaustaviti vaš trening. Jeste li sigurni da želite izaći?",
+  "cancel": "Odustani",
+  "exit": "Izađi"
 }

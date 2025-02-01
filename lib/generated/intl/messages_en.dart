@@ -31,6 +31,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Biometric Profile"),
         "bosnian": MessageLookupByLibrary.simpleMessage("Bosnian"),
         "calories": MessageLookupByLibrary.simpleMessage("Calories"),
+        "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "confirmButton": MessageLookupByLibrary.simpleMessage("CONFIRM"),
         "confirmPassword":
             MessageLookupByLibrary.simpleMessage("Confirm Password"),
@@ -48,6 +49,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "email": MessageLookupByLibrary.simpleMessage("Email"),
         "email_profile": MessageLookupByLibrary.simpleMessage("Email:"),
         "english": MessageLookupByLibrary.simpleMessage("English"),
+        "exit": MessageLookupByLibrary.simpleMessage("Exit"),
+        "exitTrainingWarning": MessageLookupByLibrary.simpleMessage(
+            "Leaving this screen will stop your training. Are you sure you want to exit?"),
         "female": MessageLookupByLibrary.simpleMessage("Female"),
         "fieldRequired":
             MessageLookupByLibrary.simpleMessage("This field is required"),
@@ -113,6 +117,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Training Overview"),
         "training_time": MessageLookupByLibrary.simpleMessage("Training time"),
         "type": MessageLookupByLibrary.simpleMessage("Type"),
+        "warning": MessageLookupByLibrary.simpleMessage("Warning"),
         "weight": MessageLookupByLibrary.simpleMessage("Weight"),
         "weight_profile": MessageLookupByLibrary.simpleMessage("Weight:"),
         "welcomeBack": MessageLookupByLibrary.simpleMessage("Welcome back"),

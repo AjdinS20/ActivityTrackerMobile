@@ -74,5 +74,9 @@
   "distance_covered": "Distance covered",
   "calories": "Calories",
   "english": "English",
-  "bosnian": "Bosnian"
+  "bosnian": "Bosnian",
+  "warning": "Warning",
+  "exitTrainingWarning": "Leaving this screen will stop your training. Are you sure you want to exit?",
+  "cancel": "Cancel",
+  "exit": "Exit"
 }

@@ -184,7 +184,7 @@ class _ProfilePageState extends State<ProfilePage> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            label ?? "N/A",
+            label != null ? label : "N/A",
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
           ),
           if (isDropdown)

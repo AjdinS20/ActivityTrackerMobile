@@ -127,6 +127,29 @@ class _NewTrainingPageState extends State<NewTrainingPage>
     }
   }
 
+  Future<bool> _showExitWarningDialog() async {
+    return await showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text(S.of(context).warning),
+              content: Text(S.of(context).exitTrainingWarning),
+              actions: [
+                TextButton(
+                  child: Text(S.of(context).cancel),
+                  onPressed: () => Navigator.of(context).pop(false),
+                ),
+                TextButton(
+                  child: Text(S.of(context).exit),
+                  onPressed: () => Navigator.of(context).pop(true),
+                ),
+              ],
+            );
+          },
+        ) ??
+        false; // Return false if dialog is dismissed
+  }
+
   Future<void> _loadRoute() async {
     final prefs = await SharedPreferences.getInstance();
     final trainingId = prefs.getString('active_training_id');
@@ -185,6 +208,24 @@ class _NewTrainingPageState extends State<NewTrainingPage>
       // Stop background location tracking
       _locationService.stopBackgroundService();
       Navigator.pop(context);
+    }
+  }
+
+  Future<void> _stopTrainingWithoutNavigate() async {
+    final trainingId = await _trainingService.getTrainingId();
+
+    if (trainingId != null) {
+      // Finish the training session
+      await _trainingService.finishTraining(trainingId);
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.remove('active_training_id');
+
+      setState(() {
+        _isTracking = false;
+      });
+
+      // Stop background location tracking
+      _locationService.stopBackgroundService();
     }
   }
 
@@ -363,14 +404,29 @@ class _NewTrainingPageState extends State<NewTrainingPage>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          _buildMap(),
-          _buildSlider(),
-          _buildStartStopButton(),
-        ],
-      ),
-    );
+    return PopScope(
+        canPop: !_isTracking,
+        onPopInvoked: (didPop) async {
+          if (didPop) {
+            return;
+          }
+
+          final shouldExit = await _showExitWarningDialog();
+          if (shouldExit) {
+            await _stopTrainingWithoutNavigate();
+            if (context.mounted) {
+              Navigator.of(context).pop();
+            }
+          }
+        },
+        child: Scaffold(
+          body: Stack(
+            children: [
+              _buildMap(),
+              _buildSlider(),
+              _buildStartStopButton(),
+            ],
+          ),
+        ));
   }
 }

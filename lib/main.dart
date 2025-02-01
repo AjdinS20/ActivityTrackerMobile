@@ -3,6 +3,7 @@ import 'package:activity_tracker/pages/home_screen.dart';
 import 'package:activity_tracker/pages/login_screen.dart';
 import 'package:activity_tracker/pages/registration_screen.dart';
 import 'package:activity_tracker/pages/splash_screen.dart';
+import 'package:activity_tracker/services/dio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -65,6 +66,7 @@ class _ActivityTrackerAppState extends State<ActivityTrackerApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: DioService.navigatorKey,
       title: 'Activity Tracker',
       locale: _locale,
       supportedLocales: [

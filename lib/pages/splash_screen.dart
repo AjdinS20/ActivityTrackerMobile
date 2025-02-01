@@ -9,7 +9,7 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  Dio _dio = Dio(); // Initialize Dio
+  Dio _dio = Dio();
 
   @override
   void initState() {
@@ -36,32 +36,27 @@ class _SplashScreenState extends State<SplashScreen> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     if (country == 'Bosnia and Herzegovina') {
-      // Set locale to Bosnian
-      await prefs.setString('locale', 'bs_BA'); // Save to cache
+      await prefs.setString('locale', 'bs_BA');
     } else {
-      // Set locale to English
-      await prefs.setString('locale', 'en_US'); // Save to cache
+      await prefs.setString('locale', 'en_US');
     }
   }
 
   Future<void> _checkUserLoggedIn() async {
-    // Example check: replace with actual Dio request
-    bool isLoggedIn = false;
-    // await _mockCheckUserLoggedIn();
+    bool isLoggedIn = await _checkLogin();
 
     if (isLoggedIn) {
       await _getUserLocation();
       _navigateToHomeScreen();
     } else {
-      print("CHECKING LOGIN");
       _navigateToLoginScreen();
     }
   }
 
-  Future<bool> _mockCheckUserLoggedIn() async {
-    // Simulate a network call to check if the user is logged in
-    await Future.delayed(Duration(seconds: 10)); // Simulate delay
-    return false; // Replace with actual login check logic
+  Future<bool> _checkLogin() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString('token');
+    return token != null ? true : false;
   }
 
   Future<void> _getUserLocation() async {

@@ -32,6 +32,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Biometrijski profil"),
         "bosnian": MessageLookupByLibrary.simpleMessage("Bosanski"),
         "calories": MessageLookupByLibrary.simpleMessage("kalorije"),
+        "cancel": MessageLookupByLibrary.simpleMessage("Odustani"),
         "confirmButton": MessageLookupByLibrary.simpleMessage("POTVRDI"),
         "confirmPassword":
             MessageLookupByLibrary.simpleMessage("Potvrdite šifru"),
@@ -49,6 +50,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "email": MessageLookupByLibrary.simpleMessage("E-mail"),
         "email_profile": MessageLookupByLibrary.simpleMessage("E-pošta:"),
         "english": MessageLookupByLibrary.simpleMessage("Engleski"),
+        "exit": MessageLookupByLibrary.simpleMessage("Izađi"),
+        "exitTrainingWarning": MessageLookupByLibrary.simpleMessage(
+            "Napuštanje ovog ekrana će zaustaviti vaš trening. Jeste li sigurni da želite izaći?"),
         "female": MessageLookupByLibrary.simpleMessage("Žensko"),
         "fieldRequired":
             MessageLookupByLibrary.simpleMessage("Ovo polje je obavezno"),
@@ -113,6 +117,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "training_time":
             MessageLookupByLibrary.simpleMessage("Vrijeme treniranja"),
         "type": MessageLookupByLibrary.simpleMessage("Vrsta"),
+        "warning": MessageLookupByLibrary.simpleMessage("Upozorenje"),
         "weight": MessageLookupByLibrary.simpleMessage("Težina"),
         "weight_profile": MessageLookupByLibrary.simpleMessage("Težina:"),
         "welcomeBack": MessageLookupByLibrary.simpleMessage("Dobrodošli nazad"),
