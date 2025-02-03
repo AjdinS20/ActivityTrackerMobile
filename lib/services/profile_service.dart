@@ -18,4 +18,21 @@ class ProfileService {
       return null;
     }
   }
+
+  static Future<Map<String, dynamic>?> deleteUserProfile() async {
+    final dio = DioService.getDio();
+    try {
+      Response response = await dio.post('/api/User/delete');
+
+      if (response.statusCode == 200) {
+        return response.data;
+      } else {
+        print('Failed to delete profile: ${response.statusMessage}');
+        return null;
+      }
+    } catch (e) {
+      print('Error deleting profile: $e');
+      return null;
+    }
+  }
 }
